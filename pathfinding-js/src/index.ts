@@ -1,15 +1,28 @@
 import * as pf from "@cetfox24/pathfinding-js"
 
-let solidColor = "gray";
-let emptyColor = "beige";
+const solidColor = "gray";
+const emptyColor = "beige";
+const bs = 40;
+
+interface GameOptions {
+  diagonal: boolean,
+  smoothenPath: boolean,
+  heuristic: pf.heuristic
+}
 
 class Game {
   public grid: pf.Grid;
   public paper: RaphaelPaper;
-  public blockSize: number = 30;
+  public blockSize: number = bs;
   public drawmode: number = -1; // -1 = standby, 0 = erease, 1 = fill
   public start: pf.Graph;
   public end: pf.Graph;
+  public algorithm = "astar";
+  public options = {
+    diagonal: false,
+    smoothenPath: false,
+    heuristic: 'manhattan'
+  } as GameOptions
 
   private rectangles: RaphaelElement[][] = [];
   private pathSVG: RaphaelPath;
@@ -25,14 +38,26 @@ class Game {
   /* Usage of Pathfind-js */
   public findPath (): void {
     this.clear(true);
-
-    let finder = new pf.AStar({
-      diagonal: true,
-      heuristic: 'octile',
-      smoothenPath: true
-    });
+    let finder: pf.AStar | pf.BFS | pf.Dijkstra = new pf.AStar();
+    if (this.algorithm === "astar") {
+      finder = new pf.AStar({
+        diagonal: this.options.diagonal,
+        heuristic: this.options.heuristic,
+        smoothenPath: this.options.smoothenPath
+      });
+    } else if (this.algorithm === "bfs") {
+      finder = new pf.BFS({
+        diagonal: this.options.diagonal,
+        heuristic: this.options.heuristic
+      });
+    } else if (this.algorithm === "dijkstra") {
+      finder = new pf.Dijkstra({
+        diagonal: this.options.diagonal,
+        smoothenPath: this.options.smoothenPath
+      });
+    }
+    
     let result = finder.findPath({x: this.start.x, y: this.start.y}, {x: this.end.x, y:  this.end.y}, this.grid);
-    console.log(result);
     
     let pathString = 'M';
     result.path.forEach(point => {
@@ -133,12 +158,31 @@ class Game {
   }
 }
 
-let grid = new pf.Grid(40, 15);
-let game = new Game(grid, {x: 1, y: 1}, {x: 38, y: 13});
+let container: HTMLElement = document.getElementById("grid-container")!;
+let w = Math.floor(container.clientWidth / bs);
+let h = Math.floor(container.clientHeight / bs);
+let grid = new pf.Grid(w, h);
+let game = new Game(grid, {x: 1, y: 1}, {x: w-2, y: h-2});
 
 let startbutton: HTMLElement = document.getElementById("start")!;
 let randombutton: HTMLElement = document.getElementById("random")!;
 let clearbutton: HTMLElement = document.getElementById("clear")!;
+let diagonalbuton: HTMLElement = document.getElementById("diagonal")!;
+let smoothbuton: HTMLElement = document.getElementById("smooth")!;
 startbutton.onclick = () => game.findPath();
 randombutton.onclick = () => game.random();
 clearbutton.onclick = () => game.clear();
+diagonalbuton.onclick = () => {
+  game.options.diagonal = !game.options.diagonal;
+  diagonalbuton.textContent = `Diagonal: ${game.options.diagonal}`;
+}
+smoothbuton.onclick = () => {
+  game.options.smoothenPath = !game.options.smoothenPath;
+  smoothbuton.textContent = `Smooth: ${game.options.smoothenPath}`;
+}
+let algorithmbutton: HTMLElement = document.getElementById("algorithm")!;
+//@ts-ignore
+algorithmbutton.onchange = (event) => game.algorithm = event.target.value;
+let heuristicbutton: HTMLElement = document.getElementById("heuristic")!;
+//@ts-ignore
+heuristicbutton.onchange = (event) => game.options.heuristic = event.target.value;
