@@ -78,7 +78,7 @@ svg {
   height: 50px;
   width: auto;
   display: grid;
-  grid-template-columns: repeat(5, auto);
+  grid-template-columns: repeat(6, auto);
   grid-gap: 10px;
   justify-items: center;
   align-items: center;

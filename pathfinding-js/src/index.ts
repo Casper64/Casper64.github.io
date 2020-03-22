@@ -7,7 +7,8 @@ const bs = 40;
 interface GameOptions {
   diagonal: boolean,
   smoothenPath: boolean,
-  heuristic: pf.heuristic
+  heuristic: pf.heuristic,
+  bidirectional: boolean
 }
 
 class Game {
@@ -21,7 +22,8 @@ class Game {
   public options = {
     diagonal: false,
     smoothenPath: false,
-    heuristic: 'manhattan'
+    heuristic: 'manhattan',
+    bidirectional: false
   } as GameOptions
 
   private rectangles: RaphaelElement[][] = [];
@@ -41,24 +43,28 @@ class Game {
     let finder: pf.AStar | pf.BFS | pf.Dijkstra = new pf.AStar();
     if (this.algorithm === "astar") {
       finder = new pf.AStar({
+        bidirectional: this.options.bidirectional,
         diagonal: this.options.diagonal,
-        heuristic: this.options.heuristic,
-        smoothenPath: this.options.smoothenPath
-      });
+        smoothenPath: this.options.smoothenPath,
+        heuristic: this.options.heuristic
+      })
     } else if (this.algorithm === "bfs") {
       finder = new pf.BFS({
         diagonal: this.options.diagonal,
-        heuristic: this.options.heuristic
+        heuristic: this.options.heuristic,
+        bidirectional: this.options.bidirectional
       });
     } else if (this.algorithm === "dijkstra") {
       finder = new pf.Dijkstra({
         diagonal: this.options.diagonal,
-        smoothenPath: this.options.smoothenPath
+        smoothenPath: this.options.smoothenPath,
+        bidirectional: this.options.bidirectional
       });
     }
     
     let result = finder.findPath({x: this.start.x, y: this.start.y}, {x: this.end.x, y:  this.end.y}, this.grid);
-    
+    console.log(result)
+
     let pathString = 'M';
     result.path.forEach(point => {
       let x = point.x * this.blockSize + this.blockSize / 2;
@@ -169,6 +175,7 @@ let randombutton: HTMLElement = document.getElementById("random")!;
 let clearbutton: HTMLElement = document.getElementById("clear")!;
 let diagonalbuton: HTMLElement = document.getElementById("diagonal")!;
 let smoothbuton: HTMLElement = document.getElementById("smooth")!;
+let bibutton: HTMLElement = document.getElementById("bi")!;
 startbutton.onclick = () => game.findPath();
 randombutton.onclick = () => game.random();
 clearbutton.onclick = () => game.clear();
@@ -179,6 +186,10 @@ diagonalbuton.onclick = () => {
 smoothbuton.onclick = () => {
   game.options.smoothenPath = !game.options.smoothenPath;
   smoothbuton.textContent = `Smooth: ${game.options.smoothenPath}`;
+}
+bibutton.onclick = () => {
+  game.options.bidirectional = !game.options.bidirectional;
+  bibutton.textContent = `Bi search: ${game.options.bidirectional}`;
 }
 let algorithmbutton: HTMLElement = document.getElementById("algorithm")!;
 //@ts-ignore
