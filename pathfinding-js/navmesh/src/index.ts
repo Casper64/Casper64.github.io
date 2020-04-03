@@ -1,104 +1,139 @@
 import * as pf from "@cetfox24/pathfinding-js"
-import { Point, Mesh } from "@cetfox24/pathfinding-js";
-
-/* IMPLEMENT THE NEIGHBOURS FUNCTION WITH THE EDGES OF THE TRIANGLES INSTEAD OF THE POINTS */
 
 
-let paper = Raphael("grid-container", window.innerWidth*2, window.innerHeight*2);
-let points = [new Point(50, 100), new Point(700, 50), new Point(1100, 700), new Point(100, 800)];
-let map = new pf.Mesh(points);
+let paper = Raphael("grid-container", window.innerWidth-250, window.innerHeight);
+let mapVertices = [new pf.Point(50, 50), new pf.Point(window.innerWidth - 300, 50), new pf.Point(window.innerWidth-300, window.innerHeight-50), new pf.Point(50, window.innerHeight-50)];
+let map = new pf.Shapes.Polygon(mapVertices);
 let path = paper.path(map.toPath());
 path.attr({fill: '#d8d8c8', stroke: '#938181', "stroke-width": 3});
 
-
-let objects: pf.Mesh[] = [];
-
-for (let i = 0; i < 9; i++) {
-  let rectPoints = [new Point(150, 150), new Point(250, 150), new Point(250, 250), new Point(150, 250)];
-  if (i == 1) {
-    rectPoints = [new Point(200, 150), new Point(250, 150), new Point(250, 250), new Point(200, 250)];
-  } else if (i == 4) {
-    rectPoints = [new Point(100, 150), new Point(200, 200), new Point(300, 150), new Point(250, 250), new Point(150, 250)];
-    // rectPoints = [new Point(150, 200), new Point(250, 200), new Point(250, 250), new Point(150, 250)];
-  } else if (i == 7) {
-    rectPoints = [new Point(150, 150), new Point(200, 150), new Point(200, 250), new Point(150, 250)];
-  }
-  let xtra = (i % 3) * 200;
-  let ytra = Math.floor(i / 3) * 200;
-  rectPoints.forEach(p => {
-    p.x += xtra;
-    p.y += ytra;
-  });
-  if (i == 4) {
-    // rectPoints.splice(1, 0, (new Point(500, 325)));
-  }
-  let mesh = new Mesh(rectPoints);
-  objects.push(mesh);
-  let meshPath = paper.path(mesh.toPath());
-  meshPath.attr({fill: 'white', stroke: '#938181', "stroke-width": 3});
-}
-let t0 = performance.now();
-let meshGrid = new pf.MeshGrid(objects, points);
-// let smt = meshGrid.smallestTriangle;
-// let smtPath = paper.path(smt.toPath());
-// console.log(smt.vertices)
-// paper.circle(smt.circumcircle.center.x, smt.circumcircle.center.y, smt.circumcircle.radius);
-let result = meshGrid.generateMap();
-let t1 = performance.now();
-console.log(`Generating the map too ${t1-t0}ms`);
-result.triangulation.forEach((t, ind) => {
-  paper.path(t.toPath()).attr({stroke: 'blue', "stroke-width": 1})
-});
-
-
-
-result.points.forEach(p => paper.circle(p.x, p.y, 3).attr({fill: 'red', stroke: 'black'}))
-// result.triangulation.forEach((t, index) => {
-//   let cc = t.circumcircle;
-//   paper.circle(cc.center.x, cc.center.y, cc.radius)
-// });
-// console.log(result.triangulation);
 let finder = new pf.AStar();
-let start = new Point(100, 300);
-let end = new Point(740, 490)
+let start = new pf.Point(100, 100);
+let startCircle: RaphaelElement = paper.circle(100, 100, 8).attr({fill: 'green', stroke: 'black'});
+let end = new pf.Point(500, 500)
+let endCircle: RaphaelElement = paper.circle(500, 500, 8).attr({fill: 'red', stroke: 'black'});
+let astarPath: RaphaelPath;
 
-let r = finder.findPathMesh(start, end, meshGrid);
-// r.open.forEach(p => paper.circle(p.x, p.y, 5).attr({fill: 'orange', stroke: 'black'}))
-// r.closed.forEach(p => paper.circle(p.x, p.y, 5).attr({fill: 'gray', stroke: 'black'}))
-let pathString = 'M';
-r.path.forEach(point => {
-  pathString += point.x+' '+point.y+'L';
+
+let objects: pf.Shapes.Polygon[] = [];
+
+type modes = "add shape" | "set start" | "none";
+let mode: modes = "none";
+let newShapeVertices: pf.Point[] = [];
+let newShapeOutline: RaphaelPath | undefined;
+// let objects: pf.Shapes.Polygon[] = [];
+let objectPaths: RaphaelPath[] = [];
+let grid: pf.MeshGrid;
+let triangles: RaphaelPath[] = [];
+let points: RaphaelElement[] = [];
+
+let addShapeButton: HTMLElement = document.getElementById("addShape")!;
+let generateMapButton: HTMLElement = document.getElementById("generateMap")!;
+let clearMapButton: HTMLElement = document.getElementById("clearMap")!;
+addShapeButton.onclick = (event) => {
+  mode = "add shape";
+  newShapeVertices.length = 0;
+}
+generateMapButton.onclick = (event) => {
+  mode = "set start";
+  grid = new pf.MeshGrid(objects, map.vertices);
+  let result = grid.generateMap();
+  triangles.forEach(triangle => triangle.remove());
+  triangles.length = 0;
+  result.triangulation.forEach(triangle => {
+    let path = paper.path(triangle.toPath());
+    path.attr({stroke: 'blue'});
+    triangles.push(path);
+  });
+  points.forEach(point => point.remove());
+  points.length = 0;
+  result.points.forEach(point => {
+    let circle = paper.circle(point.x, point.y, 3);
+    circle.attr({fill: 'red', stroke: 'black'});
+    points.push(circle);
+  });
+}
+clearMapButton.onclick = (event) => {
+  mode ="none";
+  triangles.forEach(triangle => triangle.remove());
+  points.forEach(point => point.remove());
+  if (astarPath) astarPath.remove();
+  objectPaths.forEach(outline => outline.remove());
+  objectPaths.length = 0;
+  objects.length = 0;
+}
+
+paper.canvas.onclick = (event) => {
+  if (mode == "add shape") {
+    newShapeVertices.push(new pf.Point(event.x, event.y));
+  } else if (mode == "set start") {
+    setStart(event.x, event.y);
+  }
+}
+
+paper.canvas.oncontextmenu = (event) => {
+  event.preventDefault();
+  if (mode == "set start") {
+    setEnd(event.x, event.y);
+  }
+}
+
+paper.canvas.onmousemove = (event) => {
+  if (mode == "add shape" && newShapeVertices.length != 0) {
+    if (newShapeOutline !== undefined) newShapeOutline.remove();
+    let pathString = `M${newShapeVertices[0].x},${newShapeVertices[0].y}`
+    for (let i = 1; i < newShapeVertices.length; i++) {
+      pathString += `L${newShapeVertices[i].x},${newShapeVertices[i].y}`;
+    }
+    pathString += `L${event.x},${event.y}`;
+    newShapeOutline = paper.path(pathString);
+  }
+}
+
+window.addEventListener("keyup", event => {
+  if (event.which === 13) { // enter
+    if (newShapeVertices.length < 3) return;
+    mode = "none";
+    newShapeOutline!.remove();
+    let polygon = new pf.Shapes.Polygon([...newShapeVertices]);
+    objects.push(polygon);
+    let path = drawPolygon(polygon);
+    objectPaths.push(path);
+  }
 });
 
+function drawPolygon (polygon: pf.Shapes.Polygon): RaphaelPath {
+  let path = paper.path(polygon.toPath());
+  path.attr({fill: 'white', stroke: '#938181', "stroke-width": 3});
+  return path;
+}
 
-// console.log(r);   
-let startCircle = paper.circle(start.x, start.y, 8).attr({fill: 'green', stroke: 'black'});
-let endCircle = paper.circle(end.x, end.y, 8).attr({fill: 'red', stroke: 'black'});
-let p = paper.path(pathString).attr({stroke: "purple", "stroke-width": 3});
-window.addEventListener("click", (ev) => {
-  p.remove();
-  if (ev.button == 0) {
-    startCircle.remove();
-    start = new Point(ev.pageX, ev.pageY);
-    let r = finder.findPathMesh(start, end, meshGrid);
-    let pathString = 'M';
-    r.path.forEach(point => {
-      pathString += point.x+' '+point.y+'L';
-    });
-    startCircle = paper.circle(start.x, start.y, 8).attr({fill: 'green', stroke: 'black'});
-    p = paper.path(pathString).attr({stroke: "purple", "stroke-width": 3});
-  }  
-})
-document.addEventListener("contextmenu", e => {
-  p.remove();
-  e.preventDefault();
+function setStart (x: number, y: number): void {
+  if (astarPath) astarPath.remove();
+  startCircle.remove();
+  start.x = x;
+  start.y = y;
+  let result = finder.findPathMesh(start, end, grid);
+  let pathString = "M";
+  result.path.forEach(point => {
+    pathString += point.x+' '+point.y+'L';
+  });
+  startCircle = paper.circle(start.x, start.y, 8).attr({fill: 'green', stroke: 'black'});
+  astarPath = paper.path(pathString);
+  astarPath.attr({stroke: "purple", "stroke-width": 3});
+}
+
+function setEnd (x: number, y: number): void {
+  if (astarPath) astarPath.remove();
   endCircle.remove();
-  end = new Point(e.pageX, e.pageY);
-  let r = finder.findPathMesh(start, end, meshGrid);
-  let pathString = 'M';
-  r.path.forEach(point => {
+  end.x = x;
+  end.y = y;
+  let result = finder.findPathMesh(start, end, grid);
+  let pathString = "M";
+  result.path.forEach(point => {
     pathString += point.x+' '+point.y+'L';
   });
   endCircle = paper.circle(end.x, end.y, 8).attr({fill: 'red', stroke: 'black'});
-  p = paper.path(pathString).attr({stroke: "purple", "stroke-width": 3});
-})
+  astarPath = paper.path(pathString);
+  astarPath.attr({stroke: "purple", "stroke-width": 3});
+}
