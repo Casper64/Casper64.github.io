@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+  <link rel="stylesheet" href="main.css">
+  <title>Pathfinding</title>
+</head>
+<body>
+<div class="toolbar">
+  <div class="nav-item">
+    <div class="title">Generate</div>
+    <ul class="options" style="height: 150px;">
+      <li onclick="clearGrid()">Remove</li>
+      <li onclick="Controller.random()">Random</li>
+      <li onclick="Controller.maze()">Maze</li>
+      <li onclick="window.clear(true)">Clear</li>
+    </ul>
+  </div><div class="nav-item" style="margin-right: 40px;">
+    <div class="title">Algorithm</div>
+    <ul class="options" style="height: 150px;">
+      <li onclick="setAlgorithm(this, 0)">Dijkstra</li>
+      <li onclick="setAlgorithm(this, 1)">Best first search</li>
+      <li class="selected" onclick="setAlgorithm(this, 2)">A*</li>
+      <li onclick="setAlgorithm(this, 3)">Bidirectional A*</li>
+    </ul>
+  </div>
+  <div class="nav-item">
+    <div class="title">Heurstic</div>
+    <ul class="options" style="height: 150px;">
+      <li class="selected" onclick="setHeuristic(this, 0)">Manhattan</li>
+      <li onclick="setHeuristic(this, 1)">Octile</li>
+      <li onclick="setHeuristic(this, 2)">Eucledian</li>
+      <li onclick="setHeuristic(this, 3)">Chebyshev</li>
+    </ul>
+  </div>
+  <div class="nav-item" onclick="Controller.run(true)">
+    <div class="title">Run</div>
+  </div>
+  <div class="nav-item" style="margin-right: 25px;">
+    <div class="title">Options</div>
+    <ul class="options" style="height: 80px;">
+      <li onclick="setDiagonal(this)">Diagonal</li>
+      <li onclick="setSmoothen(this)">Smoothen path</li>
+    </ul>
+  </div>
+</div>
+<div class="legend">
+  <div class="node"></div>
+  <p>Empty node</p>
+  <div class="node visited"></div>
+  <p>Visited node</p>
+  <div class="node path"></div>
+  <p>Path</p>
+  <div class="grid-center"><img src="https://img.icons8.com/metro/26/000000/forward.png"/></div>
+  <p>Start</p>
+  <div class="grid-center"><img src="https://img.icons8.com/material/24/000000/goal.png"/></div>
+  <p>End</p>
+  <p class="description">You can drag the start and end point anywhere on the grid.</p>
+  <p class="status">Status:<span class="success" id="status">OK</span></p>
+  <p class="diagnostic grid-center">Length: <span id="path-length">0</span></p>
+  <p class="diagnostic grid-center">Nodes: <span id="nodes">0</span></p>
+</div>
+<div id="grid-container" class="finished">
+  <div class="special grid-center" id="start"><img src="https://img.icons8.com/metro/26/000000/forward.png"/></div>
+  <div class="special grid-center" id="end"><img src="https://img.icons8.com/material/24/000000/goal.png"/></div>
+</div>
+</body>
+<script src="dist/utils.js"></script>
+<script src="dist/controller.js"></script>
+<script src="./dist/setup.js"></script>
+<script src="dist/algorithms.js"></script>
+</html>
