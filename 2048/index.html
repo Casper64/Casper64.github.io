@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048 AI</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./main.css" />
+</head>
+<body>
+
+<div class="buttons">
+    <div class="button" onclick="Game.get().startAI()">Start AI</div>
+    <div class="button" onclick="document.getElementById('root').classList.add('fast-tile'); Game.get().fast = true">Fast</div>
+    <div class="button" onclick="document.getElementById('root').classList.remove('fast-tile'); Game.get().fast = false">Slow</div>
+    <div class="button" onclick="Game.get().stop = true">Stop AI</div>
+    <p id="score">Score: 0</p>
+</div>
+    
+<div class="board" id="root">
+    <div class="empty-container">
+        <div class="tile empty"></div>
+        <div class="tile empty"></div>
+        <div class="tile empty"></div>
+        <div class="tile empty"></div>
+        <div class="tile empty"></div>
+        <div class="tile empty"></div>
+        <div class="tile empty"></div>
+        <div class="tile empty"></div>
+        <div class="tile empty"></div>
+        <div class="tile empty"></div>
+        <div class="tile empty"></div>
+        <div class="tile empty"></div>
+        <div class="tile empty"></div>
+        <div class="tile empty"></div>
+        <div class="tile empty"></div>
+        <div class="tile empty"></div>
+    </div>
+</div>
+
+</body>
+<script src="./bundle.js"></script>
+</html>
