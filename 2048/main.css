@@ -9,6 +9,7 @@ html, body {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    background:  #edcf73; /* #edc22d */
 }
 
 .buttons {
@@ -17,14 +18,14 @@ html, body {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     justify-items: center;
-    grid-template-rows: 60px 40px;
+    grid-template-rows: 60px 80px 80px;
 }
 
 #score {
     grid-column: span 4;
     font-size: 55px;
     font-weight: bold;
-    color: #847769;
+    color: white;
 }
 
 p {
@@ -43,6 +44,15 @@ p {
     color: white;
     border-radius: 5px;
     cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.08);
+}
+
+.new-game {
+    grid-column: span 4;
+    width: 270px !important;
+    background-color: #8f7a66;
+    color: #f9f4e7;
 }
 
 .board {
@@ -52,6 +62,7 @@ p {
     position: relative;
     border: 12px solid #bbada0;
     border-radius: 5px;
+    box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.12);
 }
 
 .empty-container {
@@ -81,6 +92,35 @@ p {
     position: absolute;
     z-index: 2;
     color: #f9f6f2;
+}
+
+@media screen and (max-width: 600px) {
+    .board {
+        width: 321px;
+        height: 321px;  
+        border-width: 6px;
+    }
+    .empty-container {
+        gap: 6px;
+    }
+    .tile.empty {
+        width: 73px;
+        height: 73px;
+        border: 1px solid  #bbada0;
+    }
+    .tile:not(.empty) {
+        transform: scale(0.75);
+    }
+    .buttons {
+        width: 350px;
+    }
+    .button {
+        width: 75px;
+        height: 36px;
+    }
+    #score {
+        font-size: 40px;
+    }
 }
 
 .empty {

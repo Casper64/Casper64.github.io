@@ -1,0 +1,12 @@
+{
+    "name": "2048",
+    "short_name": "2048",
+    "display": "standalone",
+    "icons": [{
+       "src": "icons/icon-192.png",
+       "sizes": "192x192"},
+    {
+       "src": "icons/icon-512.png",
+       "sizes": "512x512"}
+    ]
+ }
