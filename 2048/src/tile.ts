@@ -1,12 +1,14 @@
 import { Vec2 } from './util'
 
 const positions = [0, 112, 224, 336];
+const positionsPhone = [-12, 70, 151, 232];
 
 export class Tile {
     public position: Vec2;
     public value: number;
     public element: HTMLElement;
     public id = Math.random();
+    public positions: number[];
 
     public get x (): number {
         return this.position.x;
@@ -19,6 +21,8 @@ export class Tile {
         this.position = new Vec2(x, y);
         this.value = (Math.random() >= 0.9 ? 2 : 1);
         // this.value = Math.ceil(Math.random() * 10) + 1; // For testing css classes
+
+        this.positions = (window.innerWidth > 600) ? positions : positionsPhone;
     }
 
     // Inserts the Element into the DOM
@@ -29,8 +33,8 @@ export class Tile {
         element.classList.add(`tile-${this.value}`);
         element.innerText = Math.pow(2, this.value).toString();
 
-        element.style.left = `${positions[this.position.x]}px`;
-        element.style.top = `${positions[this.position.y]}px`;
+        element.style.left = `${this.positions[this.position.x]}px`;
+        element.style.top = `${this.positions[this.position.y]}px`;
         root.insertAdjacentElement("beforeend", element);
         this.element = element;
         return this;
@@ -40,8 +44,8 @@ export class Tile {
     public update(remove = false) {
         // The time it takes to move the tile in ms
         const animationTime = 100;
-        this.element.style.left = `${positions[this.position.x]}px`;
-        this.element.style.top = `${positions[this.position.y]}px`;
+        this.element.style.left = `${this.positions[this.position.x]}px`;
+        this.element.style.top = `${this.positions[this.position.y]}px`;
         setTimeout(() => {
             this.element.className = `tile tile-${this.value}`;
             this.element.innerText = Math.pow(2, this.value).toString();

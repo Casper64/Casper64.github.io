@@ -24,7 +24,7 @@
     <div class="button" onclick="document.getElementById('root').classList.remove('fast-tile'); Game.get().fast = false">Slow</div>
     <div class="button" onclick="Game.get().stop = true">Stop AI</div>
     <p id="score">Score: 0</p>
-    <div class="button new-game">New Game</div>
+    <div class="button new-game" onclick="Game.get().newGame()">New Game</div>
 </div>
     
 <div class="board" id="root">

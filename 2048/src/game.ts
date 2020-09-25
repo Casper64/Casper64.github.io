@@ -146,8 +146,39 @@ export default class Game {
                 this.startAI();
             });
         }
-        
     }
 
+    public newGame() {
+        this.tiles.forEach(tile => {
+            tile.remove();
+        });
+
+        for (let x  = 0; x < 4; x++) {
+            for (let y = 0; y < 4; y++) {
+                this.board[x][y] = null;
+            }
+        }
+
+        let random1 = Vec2.random();
+        let random2 = Vec2.random();
+        // Make sure the random positions aren't the same
+        while(random1.equals(random2)) {
+            random2 = Vec2.random();
+        }
+
+        let tile1 = Tile.from(random1).draw();
+        let tile2 = Tile.from(random2).draw();
+        
+        // let tile1 = new Tile(3, 1).draw();
+        // let tile2 = new Tile(0, 3).draw();
+
+        // Insert the tiles into the game board
+        this.board[tile1.x][tile1.y] = tile1;
+        this.board[tile2.x][tile2.y] = tile2;
+
+        this.score = 0;
+        document.getElementById("score")!.innerHTML = "Score: 0";
+        this.stop = true;
+    }
     
 }
