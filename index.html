@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casper Kuethe Web Designer</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./main.css"/>
+    <script src="https://kit.fontawesome.com/53b759943c.js" crossorigin="anonymous"></script>
+</head>
+<body onload="setupSlides()">
+<nav class="main-nav">
+    <a href="#main" class="nav-brand" style="height: 46px;">
+        <img src="./assets//Logo.svg">
+    </a>
+    <div class="nav-links">
+        <a href="#main">Home</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+    </div>
+    <button class="mobile-menu"></button>
+</nav>   
+<section class="page landing-page" id="main">
+     
+    <div class="header-text">
+        <h1>Web Design & <b>Development</b></h1>
+        <p>Hi I'm <img src="./assets/Logo.svg"> asper! Student Artificial Intelligence, Web Designer & Web Developer</p>
+        <a class="button" href="#projects">GO</a>
+    </div>
+    <img class="waves" src="assets/waves.svg">
+</section>
+<section class="page projects-page" id="projects">
+    <button onclick="slide(-1)" class="slide-button button" id="left"><i class="fas fa-chevron-left"></i></button>
+    <button onclick="slide(1)" class="slide-button button" id="right"><i class="fas fa-chevron-right"></i></button>
+    <div class="slide slide-2048">
+        <div class="slide-content">
+            <div class="slide-text">
+                <h1>2048</h1>
+                <p>Try to create the 2048 tile, or get a little help from the AI</p>
+                <a class="button" href="https://casper64.github.io/2048" target="_blank" >GO</a>
+            </div>
+            <div class="slide-img">
+                <a href="https://casper64.github.io/2048" target="_blank"><img src="assets/2048.png"></a>
+            </div>
+        </div>
+    </div>
+    <div class="slide slide-pathfinder">
+        <div class="slide-content">
+            <div class="slide-text">
+                <h1>Pathfinding</h1>
+                <p>Play around with different pathfinding algorithms in this online tool</p>
+                <a class="button" href="https://casper64.github.io/pathfinding/" target="_blank">GO</a>
+            </div>
+            <div class="slide-img">
+                <a href="https://casper64.github.io/pathfinding/" target="_blank"><img src="assets/Pathfinding.png"></a>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="page contact-page" id="contact">
+    <div class="contact-form">
+        <h1 class="span-2">Contact Me</h1>
+        <div class="input span-2">
+            <p>Your Name*</p>
+            <input type="text">
+        </div>
+        <div class="input" style="margin-right: 10px">
+            <p>Your Email*</p>
+            <input type="text">
+        </div>
+        <div class="input" style="margin-left: 10px">
+            <p>Phone Number</p>
+            <input type="text">
+        </div>
+        <div class="input span-2">
+            <p>What is your question?*</p>
+            <textarea></textarea>
+        </div>
+        <button class="send-button span-2">SEND MESSAGE</button>
+    </div>
+</section>
+
+</body>
+<script>
+
+let slideIndex = 0;
+
+function setupSlides() {
+    let slider = document.getElementById("projects");
+    let children = slider.children;
+    for (let i = 0; i < children.length-2; i++) {
+        children[i+2].style.left = window.innerWidth*i+"px";
+    }
+
+    slide(0);
+    document.getElementById("left").style.left =  10 +"px";
+    document.getElementById("right").style.left = ( window.innerWidth - 80 )+"px";
+    slider.addEventListener("scroll", () => {
+        document.getElementById("left").style.left = (slider.scrollLeft + 10) +"px";
+        document.getElementById("right").style.left = (slider.scrollLeft + window.innerWidth - 80) +"px";
+    })
+}
+
+function slide(dx) {
+    slideIndex += dx;
+    if (slideIndex < 0) slideIndex = document.getElementById("projects").children.length-3;
+    if (slideIndex == document.getElementById("projects").children.length-2) slideIndex = 0;
+    document.getElementById("projects").scrollTo({left: slideIndex*window.innerWidth, behavior: 'smooth'});
+    console.log(slideIndex);
+}
+
+window.addEventListener("resize", setupSlides);
+
+</script>
+
+</html>
