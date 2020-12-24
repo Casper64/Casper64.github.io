@@ -106,9 +106,36 @@ textarea:focus {
   z-index: 2;
 }
 
+@media only screen and (max-width: 697px) {
+  .main-nav {
+    -ms-grid-columns: 50px 1fr;
+        grid-template-columns: 50px 1fr;
+  }
+}
+
 .landing-page {
   z-index: 1;
   background-color: white;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 100px 500px 1fr;
+      grid-template-columns: 100px 500px 1fr;
+  -ms-grid-rows: 120px 400px 1fr;
+      grid-template-rows: 120px 400px 1fr;
+}
+
+.landing-page a {
+  color: white;
+  background: linear-gradient(135deg, #f7ff00, #e99855);
+}
+
+@media only screen and (max-width: 697px) {
+  .landing-page {
+    -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
+    -ms-grid-rows: 80px 400px 1fr;
+        grid-template-rows: 80px 400px 1fr;
+  }
 }
 
 .nav-brand {
@@ -117,7 +144,7 @@ textarea:focus {
 }
 
 .nav-links {
-  width: 300px;
+  width: 250px;
 }
 
 .nav-links a {
@@ -136,10 +163,26 @@ textarea:focus {
   bottom: -200px;
 }
 
+@media only screen and (max-width: 1100px) {
+  .waves {
+    bottom: -15vw;
+  }
+}
+
+@media only screen and (max-width: 697px) {
+  .waves {
+    width: 150%;
+    bottom: -20vw;
+  }
+}
+
 .header-text {
-  margin-left: 100px;
-  padding-top: 130px;
-  width: 500px;
+  -ms-grid-column: 2;
+      grid-column-start: 2;
+  -ms-grid-row: 2;
+      grid-row-start: 2;
+  width: 100%;
+  height: 100%;
   z-index: 2;
   display: -ms-grid;
   display: grid;
@@ -177,6 +220,26 @@ textarea:focus {
   margin-right: 85px;
 }
 
+@media only screen and (max-width: 697px) {
+  .header-text {
+    justify-items: center;
+  }
+  .header-text h1 {
+    font-size: 48px;
+    text-align: center;
+  }
+  .header-text b {
+    font-size: 60px;
+  }
+  .header-text p {
+    font-size: 24px;
+    width: 325px;
+  }
+  .header-text a {
+    margin: 0;
+  }
+}
+
 .projects-page {
   overflow-x: scroll;
   overflow-y: hidden;
@@ -205,6 +268,12 @@ textarea:focus {
   justify-items: center;
 }
 
+@media only screen and (max-width: 697px) {
+  .slide {
+    padding-top: 0px;
+  }
+}
+
 .slide-content {
   width: 850px;
   height: 300px;
@@ -216,6 +285,18 @@ textarea:focus {
       grid-template-rows: 300px;
 }
 
+@media only screen and (max-width: 697px) {
+  .slide-content {
+    width: 90%;
+    height: 575px;
+    -ms-grid-rows: 300px 225px;
+        grid-template-rows: 300px 225px;
+    gap: 50px;
+    -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
+  }
+}
+
 .slide-text h1 {
   font-size: 72px;
   font-weight: normal;
@@ -225,6 +306,27 @@ textarea:focus {
   font-size: 40px;
   font-weight: 300;
   padding-bottom: 10px;
+}
+
+@media only screen and (max-width: 697px) {
+  .slide-text {
+    display: -ms-grid;
+    display: grid;
+    justify-items: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -ms-grid-rows: 100px 175px 1fr;
+        grid-template-rows: 100px 175px 1fr;
+    width: 100%;
+  }
+  .slide-text h1 {
+    text-align: center;
+    font-size: 60px;
+  }
+  .slide-text p {
+    font-size: 32px;
+  }
 }
 
 .slide-img {
@@ -246,6 +348,13 @@ textarea:focus {
   height: 280px;
 }
 
+@media only screen and (max-width: 697px) {
+  .slide-img img {
+    width: 200px;
+    height: 200px;
+  }
+}
+
 .slide-button {
   width: 50px;
   height: 50px;
@@ -259,6 +368,7 @@ textarea:focus {
   z-index: 1;
   position: absolute;
   top: calc(50% - 25px);
+  background: linear-gradient(135deg, #859398, #283048);
 }
 
 .slide-2048 {
@@ -266,8 +376,9 @@ textarea:focus {
   color: white;
 }
 
-.slide-2048 a {
+.slide-2048 a.button {
   color: white;
+  background: linear-gradient(135deg, #f7ff00, #e99855);
 }
 
 .slide-pathfinder {
@@ -275,13 +386,20 @@ textarea:focus {
   background-color: #f5f5dc;
 }
 
-.slide-pathfinder a {
-  color: black;
+.slide-pathfinder a.button {
+  color: white;
+  background: linear-gradient(135deg, #f7ff00, #e99855);
 }
 
 .slide-pathfinder img {
   height: 250px;
   width: auto;
+}
+
+@media only screen and (max-width: 697px) {
+  .slide-pathfinder img {
+    height: 200px;
+  }
 }
 
 .contact-page {
@@ -314,6 +432,12 @@ textarea:focus {
 .contact-form h1 {
   text-align: center;
   font-size: 48px;
+}
+
+@media only screen and (max-width: 697px) {
+  .contact-form {
+    width: 90%;
+  }
 }
 
 .input {

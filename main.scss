@@ -1,3 +1,8 @@
+$breakpoint-sm: 697px;
+$breakpoint-md: 1100px;
+$breakpoint-lg: 1440px;
+
+
 html, body {
     width: 100%;
     height: 100%;
@@ -95,11 +100,28 @@ textarea:focus {
     z-index: 2;
     // background-color: rgba(255,255,255,0.1);
     // backdrop-filter: blur(5px);
+
+    @media only screen and (max-width: $breakpoint-sm) {
+        grid-template-columns: 50px 1fr;
+    }
 }
 
 .landing-page {
     z-index: 1;
     background-color: white;
+    display: grid;
+    grid-template-columns: 100px 500px 1fr;
+    grid-template-rows: 120px 400px 1fr;
+
+    a {
+        color: white;
+        background: linear-gradient(135deg, #f7ff00, #e99855);
+    }
+
+    @media only screen and(max-width: $breakpoint-sm) {
+        grid-template-columns: 1fr;
+        grid-template-rows: 80px 400px 1fr;
+    }
 }
 
 .nav-brand {
@@ -108,7 +130,7 @@ textarea:focus {
 }
 
 .nav-links {
-    width: 300px;
+    width: 250px;
 
     a {
         color: #8490a4;
@@ -124,12 +146,22 @@ textarea:focus {
     position: absolute;
     right: 0px;
     bottom: -200px;
+
+    
+    @media only screen and(max-width: $breakpoint-md) {
+        bottom: -15vw;
+    }
+    @media only screen and(max-width: $breakpoint-sm) {
+        width: 150%;
+        bottom: -20vw;
+    }
 }
 
 .header-text {
-    margin-left: 100px;
-    padding-top: 130px;
-    width: 500px;
+    grid-column-start: 2;
+    grid-row-start: 2;
+    width: 100%;
+    height: 100%;
     z-index: 2;
     display: grid;
     grid-template-rows: 160px 165px 50px;
@@ -157,6 +189,25 @@ textarea:focus {
         justify-self: center;
         margin-right: 85px;
     }
+
+    @media only screen and(max-width: $breakpoint-sm) {
+        justify-items: center;
+
+        h1 {
+            font-size: 48px;
+            text-align: center;
+        }
+        b {
+            font-size: 60px;
+        }
+        p {
+            font-size: 24px;
+            width: 325px;
+        }
+        a {
+            margin: 0;
+        }
+    }
 }
 
 .projects-page {
@@ -180,6 +231,10 @@ textarea:focus {
     padding-top: 200px;
     align-items: center;
     justify-items: center;
+
+    @media only screen and(max-width: $breakpoint-sm) {
+        padding-top: 0px;
+    }
 }
 
 .slide-content {
@@ -188,6 +243,14 @@ textarea:focus {
     display: grid;
     grid-template-columns: 450px 400px;
     grid-template-rows: 300px;
+
+    @media only screen and(max-width: $breakpoint-sm) {
+        width: 90%;
+        height: 575px;
+        grid-template-rows: 300px 225px;
+        gap: 50px;
+        grid-template-columns: 1fr;
+    }
 }
 
 .slide-text {
@@ -199,6 +262,21 @@ textarea:focus {
         font-size: 40px;
         font-weight: 300;
         padding-bottom: 10px;
+    }
+
+    @media only screen and(max-width: $breakpoint-sm) {
+        display: grid;
+        justify-items: center;
+        align-items: center;
+        grid-template-rows: 100px 175px 1fr;
+        width: 100%;
+        h1 {
+            text-align: center;
+            font-size: 60px;
+        }
+        p {
+            font-size: 32px;
+        }
     }
 }
 
@@ -215,6 +293,13 @@ textarea:focus {
         width: 280px;
         height: 280px;
     }
+
+    @media only screen and(max-width: $breakpoint-sm) {
+        img {
+            width: 200px;
+            height: 200px;
+        }
+    }
 }
 
 .slide-button {
@@ -227,6 +312,7 @@ textarea:focus {
     z-index: 1;
     position: absolute;
     top: calc(50% - 25px);
+    background: linear-gradient(135deg, #859398, #283048);
 }
 
 
@@ -234,8 +320,9 @@ textarea:focus {
     background-color: #edcf73;
     color: white;
 
-    a {
+    a.button {
         color: white;
+        background: linear-gradient(135deg, #f7ff00, #e99855);
     }
 }
 
@@ -243,13 +330,20 @@ textarea:focus {
     color: black;
     background-color: #f5f5dc;
 
-    a {
-        color: black;
+    a.button {
+        color: white;
+        background: linear-gradient(135deg, #f7ff00, #e99855);
     }
 
     img {
         height: 250px;
         width: auto;
+    }
+
+    @media only screen and(max-width: $breakpoint-sm) {
+        img {
+            height: 200px;
+        }
     }
 }
 
@@ -274,6 +368,10 @@ textarea:focus {
     h1 {
         text-align: center;
         font-size: 48px;
+    }
+
+    @media only screen and (max-width: $breakpoint-sm) {
+        width: 90%;
     }
 
 }
