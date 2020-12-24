@@ -101,6 +101,7 @@ function setupSlides() {
 }
 
 function slide(dx) {
+    slideIndex = Math.floor(document.getElementById("projects").scrollLeft / window.innerWidth);
     slideIndex += dx;
     if (slideIndex < 0) slideIndex = document.getElementById("projects").children.length-3;
     if (slideIndex == document.getElementById("projects").children.length-2) slideIndex = 0;
