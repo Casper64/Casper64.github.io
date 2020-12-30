@@ -57,26 +57,28 @@
     </div>
 </section>
 <section class="page contact-page" id="contact">
-    <div class="contact-form">
-        <h1 class="span-2">Contact Me</h1>
-        <div class="input span-2">
-            <p>Your Name*</p>
-            <input type="text">
+    <form action="https://formspree.io/f/moqpprzp" method="POST">
+        <div class="contact-form">
+            <h1 class="span-2">Contact Me</h1>
+            <div class="input span-2">
+                <p>Your Name*</p>
+                <input type="text" name="name">
+            </div>
+            <div class="input" style="padding-right: 10px">
+                <p>Your Email*</p>
+                <input type="email" name="_replyto">
+            </div>
+            <div class="input" style="padding-left: 10px">
+                <p>Phone Number</p>
+                <input type="text" name="phone">
+            </div>
+            <div class="input span-2">
+                <p>What is your question?*</p>
+                <textarea name="message"></textarea>
+            </div>
+            <input type="submit" value="SEND MESSAGE" class="send-button span-2">
         </div>
-        <div class="input" style="padding-right: 10px">
-            <p>Your Email*</p>
-            <input type="text">
-        </div>
-        <div class="input" style="padding-left: 10px">
-            <p>Phone Number</p>
-            <input type="text">
-        </div>
-        <div class="input span-2">
-            <p>What is your question?*</p>
-            <textarea></textarea>
-        </div>
-        <button class="send-button span-2">SEND MESSAGE</button>
-    </div>
+    </form>
 </section>
 
 </body>
