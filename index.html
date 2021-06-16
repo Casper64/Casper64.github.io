@@ -93,7 +93,7 @@ function setupSlides() {
         children[i+2].style.left = window.innerWidth*i+"px";
     }
 
-    slide(-1);
+    slide(0, true);
     document.getElementById("left").style.left =  10 +"px";
     document.getElementById("right").style.left = ( window.innerWidth - 80 )+"px";
     slider.addEventListener("scroll", () => {
@@ -102,9 +102,10 @@ function setupSlides() {
     })
 }
 
-function slide(dx) {
+function slide(dx, custom=false) {
     slideIndex = Math.floor(document.getElementById("projects").scrollLeft / window.innerWidth);
     slideIndex += dx;
+    if (custom) slideIndex = dx;
     if (slideIndex < 0) slideIndex = document.getElementById("projects").children.length-3;
     if (slideIndex == document.getElementById("projects").children.length-2) slideIndex = 0;
     document.getElementById("projects").scrollTo({left: slideIndex*window.innerWidth, behavior: 'smooth'});
