@@ -444,6 +444,7 @@ textarea:focus {
 @media only screen and (max-width: 697px) {
   .contact-form {
     width: 90%;
+    margin: auto;
   }
 }
 
