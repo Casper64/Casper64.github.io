@@ -444,7 +444,6 @@ textarea:focus {
 @media only screen and (max-width: 697px) {
   .contact-form {
     width: 90%;
-    margin: auto;
   }
 }
 
@@ -463,5 +462,20 @@ textarea:focus {
   width: 150px;
   height: 40px;
   font-family: 'Varela Round', sans-serif;
+}
+
+.slide-notes {
+  background-color: #282c34;
+  color: white;
+}
+
+.slide-notes > img {
+  height: 100%;
+  position: absolute;
+}
+
+.slide-notes a.button {
+  color: white;
+  background: linear-gradient(135deg, #f7ff00, #e99855);
 }
 /*# sourceMappingURL=main.css.map */
