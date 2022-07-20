@@ -2,9 +2,8 @@
     "short_name": "Sliding Puzzle",
     "Name": "Sliding Puzzle Game Explained",
     "icons": [{
-
+        
     }],
-    "start_url": "/",
     "display": "standalone",
     "orientation": "portrait",
     "background_color": "#5db9bb",

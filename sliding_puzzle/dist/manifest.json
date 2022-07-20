@@ -2,9 +2,12 @@
     "short_name": "Sliding Puzzle",
     "Name": "Sliding Puzzle Game Explained",
     "icons": [{
-
+        "src": "assets/logo192.png",
+        "sizes": "192x192"
+    }, {
+        "src": "assets/logo.png",
+        "sizes": "512x512"
     }],
-    "start_url": "/",
     "display": "standalone",
     "orientation": "portrait",
     "background_color": "#5db9bb",
