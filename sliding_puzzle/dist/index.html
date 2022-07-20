@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    <title>Sliding Puzzle</title>
+    <link rel="stylesheet" href="./assets/index.078168ee.css">
+    <script src="./assets/index.9d379c9d.js" defer></script>
+    <!-- PWA -->
+    <meta name="mobile-web-app-capable" content="yes"> 
+    <meta name="viewport" content="initial-scale=1"> 
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> 
+    <link rel="apple-touch-icon" sizes="192x192" href="./vite.svg"> 
+    <link rel="manifest" href="./manifest.json">
+   
+  </head>
+  <body>
+
+    <div class="puzzle-container">
+      <h1>Sliding Puzzle Solver</h1>
+      <p>Press <b>Shuffle</b> to mix up the puzzle and use the arrow keys to move.<br> Press <b>Solve</b> if you want the algorithm to solve the puzzle for you.<br>Or press the <b>3x3</b> button to change the puzzle size.</p>
+      <div class="twins">
+        <p>Animation speed: <span id="speed-value">100%</span></p>
+        <input type="range" min="0" max="100" value="100" id="speed">
+      </div>
+      <div class="control-panel">
+        <select name="slices" id="selector">
+          <option selected value="3">3x3</option>
+          <option  value="4">4x4</option>
+          <option  value="5">5x5</option>
+        </select>
+        <div class="button" id="solve">Solve</div>
+        <div class="button" id="shuffle">Shuffle</div>
+        <div class="button" id="reset">Reset</div>
+      </div>
+      <div id="puzzle"></div>
+      <div class="more" id="collapser">
+        <p>Show <span class="closed">More</span><span class="not-closed">Less</span></p>
+        <div class="arrow" id="collapse-arrow"></div>
+      </div>
+    </div>
+
+    <div class="explanation" id="explain">
+      <h1>The Algorithm</h1>
+      <div class="steps">
+        <div class="light" id="light-1"></div>
+        <p>
+          1. Solve the top row.
+        </p>
+        <div class="light" id="light-2"></div>
+        <p>
+          2. Solve the most left column.
+        </p>
+        <div class="light" id="light-3"></div>
+        <p>
+          3. If the remaining tiles have a dimension of 3x3 or larger go to step 1 with the smaller grid.
+        </p>
+        <div class="light" id="light-4"></div>
+        <p>
+          4. Shuffle the last 4 corner tiles until a solution is found.
+        </p>
+        <div class="light" id="light-5"></div>
+        <p>
+          5. The puzzle is solved!
+        </p>
+      </div>
+      <h2>Moving The Tiles</h2>
+      <div class="moving-steps">
+        <div class="button" id="move-1">Check</div>
+        <p>We move the tile by first calculating the shortest path to its destination.</p>
+        <div class="button" id="move-2">Check</div>
+        <p>Then we move the empty space one position ahead of the tile and switch them.</p>
+        <div class="button" id="show-3">Show</div>
+        <p>If a tile is on its path or on a correct position we make sure A* can't consider it a valid position.</p>
+      </div>
+      <!-- <p class="foot">I used the A* algorithm to calculate the shortest path.<br>You can find all the code on <a href="https://github.com/Casper64/Casper64.github.io" target="_blank">my Github</a>.</p> -->
+    </div>
+
+    
+  </body>
+</html>
