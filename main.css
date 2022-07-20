@@ -478,4 +478,14 @@ textarea:focus {
   color: white;
   background: linear-gradient(135deg, #f7ff00, #e99855);
 }
+
+.slide-sliding {
+  background-color: #5db9bb;
+  color: white;
+}
+
+.slide-sliding a.button {
+  color: white;
+  background: linear-gradient(135deg, #5db9bb, #b4d8d0);
+}
 /*# sourceMappingURL=main.css.map */

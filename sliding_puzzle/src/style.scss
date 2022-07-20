@@ -1,0 +1,527 @@
+$pink: #ff598f;
+$orange: #fd8a5e;
+$yellow: #e0e300;
+$blue: #01dddd;
+$green: #00bfaf;
+
+$dblue: #5db9bb;
+$lblue: #b4d8d0;
+
+$mobile: 596px;
+
+body {
+    margin: 0;
+    overflow: hidden;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    
+    display: grid;
+    grid-template-columns: 1fr auto;
+    color: white;
+    background-color: $dblue;
+
+    @media only screen and (max-width: $mobile) {
+        grid-template-columns: 1fr;
+        grid-template-rows: min-content auto;
+        overflow-y: auto;
+        position: relative;
+    }
+}
+
+h1, h2, h3, p {
+    margin: 0;
+}
+h1, h2, h3 {
+    text-align: center;
+}
+h2 {
+    font-size: 3rem;
+}
+h3 {
+    font-size: 2rem;
+}
+p {
+    font-size: 1.5rem;
+}
+
+h1 {
+    color: white;
+    font-size: 4rem;
+    font-weight: bold;
+}
+h1:first-of-type {
+    align-self: flex-start;
+    padding-top: 20px;
+
+    @media only screen and (max-width: $mobile) {
+        padding-top: 0;
+    }
+}
+
+h1, h2, h3, p {
+    text-shadow: 2px 2px 2px rgb(146, 146, 146);
+}
+
+@media only screen and (max-width: $mobile) {
+    h1 {
+        font-size: 2.5rem;
+    }
+    h2 {
+        font-size: 2rem;
+    }
+    h3 {
+        font-size: 1.5rem;
+    }
+    p {
+        font-size: 1rem;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.puzzle-container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    position: relative;
+    transition: padding 0.3s ease-out;
+    grid-template-rows: auto auto auto auto 1fr;
+    gap: 20px;
+
+    &::after {
+        content: "";
+        width: 0px;
+        height: 100%;
+        position: absolute;
+        right: 0px;
+        bottom: 0;
+        background-color: $lblue;
+        transition: width ease-out 0.3s, right ease-out 0.3s;
+    }
+    &::before {
+        content: "";
+        width: 0px;
+        height: 100%;
+        right: 0px;
+        position: absolute;
+        transition: width ease-out 0.2s, right ease-out 0.3s;
+        background-color: #f0ddd4;
+    }
+
+    @media only screen and (max-width: $mobile) {
+        padding-right: 0;
+        padding-left: 20px;
+        padding-right: 20px;
+
+        &::after {
+            height: 0px;
+            width: 100%;
+            transform: scaleY(-1);
+            bottom: 0px;
+        }
+        &::before {
+            height: 0px;
+            width: 100%;
+            bottom: -50px;
+            transform: scaleY(-1);
+        }
+    }
+}
+
+.open .puzzle-container {
+    padding-right: 250px;
+    &::after {
+        width: 150px;
+        right: 100px;
+    }
+    &::before {
+        width: 100px;
+    }
+
+    @media only screen and (max-width: $mobile) {
+        padding-right: 20px;
+        padding-bottom: 250px;
+
+        &::after {
+            // height: 75px;
+            width: 100%;
+            right: unset;
+        }
+        &::before {
+            // height: 50px;
+            width: 100%;
+        }
+    }
+}
+
+
+
+.exp {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+#puzzle {
+    width: 450px;
+    height: 450px;
+    position: relative;
+    background-color: #bbada0;
+    border: 12px solid #bbada0;
+    border-radius: 5px;
+    box-shadow: 0px 0px 4px 4px rgb(0 0 0 / 12%);
+    padding: 12px;
+    box-sizing: content-box;
+
+    @media only screen and (max-width: $mobile) {
+        width: 300px;
+        height: 300px;
+        margin-bottom: 20px;
+    }
+}
+
+.tile {
+    background-color: #eee4da;
+    border-radius: 5px;
+    position: absolute;
+    display: grid;
+    align-items: center;
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #847769;
+    user-select: none;
+    z-index: 3;
+    transition: 0.1s;
+
+    &.empty {
+        background-color: #cdc1b4;
+        z-index: 2;
+        &.path-showcase {
+            background-color: $yellow;
+            opacity: 0.25;
+            z-index: 5;
+        }
+        &.show-valid {
+            background-color: $pink;
+            opacity: 0.25;
+            z-index: 5;
+        }
+    }
+}
+
+input[type="range"] {
+    width: 300px;
+    height: 10px;
+    -webkit-appearance: none;
+    background: #f0ddd4;
+    outline: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.5);
+
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #f0ddd4;
+        cursor: pointer;
+        box-shadow: -407px 0 0 400px $lblue;
+      }
+
+}
+
+.twins {
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    gap: 25px;
+
+    @media only screen and (max-width: $mobile) {
+        grid-auto-flow: row;
+        justify-items: left;
+        justify-content: center;
+    }
+}
+
+.control-panel {
+    display: grid;
+    grid-auto-flow: column;
+    grid-gap: 12px;
+    width: auto;
+    height: 60px;
+    align-items: center;
+}
+
+.button, select {
+    outline: 0;
+    border: 0;
+    line-height: normal;
+    margin: 0;
+    
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+    -webkit-appearance: none;
+    width: 110px;
+    height: 48px;
+    background-color:$pink;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.12);
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    position: relative;
+
+    &:hover {
+        outline: 0;
+
+        &::before {
+            opacity: 0.1;
+        }
+    }
+
+    &::before {
+        content: "";
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: black;
+        transition: opacity 0.15s ease-out;
+        opacity: 0;
+        z-index: 2;
+    }
+
+    @media only screen and (max-width: $mobile) {
+        width: 72px;
+        height: 32px;
+
+        &:is(select) {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+    }
+    
+}
+
+
+option {
+    font-weight: bold;
+}
+
+.more {
+    color: white;
+    font-weight: 700;
+    font-size: 32px;
+    opacity: 0.6;
+    cursor: pointer;
+    transform: rotate(-90deg);
+    position: absolute;
+    right: -20px;
+    width: 180px;
+    height: 120px;
+    padding-top: 50px;
+    text-align: center;
+    transition: opacity 0.3s ease, right 0.25s ease;
+    z-index: 4;
+
+    .arrow {
+        width: 30px;
+        height: 30px;
+        border-top: 4px solid white;
+        border-right: 4px solid white;
+        transform: rotate(135deg);
+        left: calc(180px / 2 - 15px);
+        top: 80px;
+        position: absolute;
+        animation: hover2 2.5s ease-in-out forwards infinite;
+        animation-delay: -0.25s;
+        &::before {
+            content: "";
+            width: 30px;
+            height: 30px;
+            border-top: 2px solid rgb(146, 146, 146);
+            border-right: 2px solid rgb(146, 146, 146);
+            position: absolute;
+            top: -6px;
+            left: 0px;
+        }
+    }
+
+    p {
+        animation: hover 2.5s ease-in-out forwards infinite;
+    }
+
+    &:hover {
+        opacity: 1 !important;
+        p, .arrow {
+            animation-play-state: paused !important;
+        }
+    }
+
+    .not-closed {
+        display: none;
+    }
+
+    @media only screen and (max-width: $mobile) {
+        display: none;
+    }
+}
+
+.open .more {
+    right: 230px;
+    .arrow {
+        animation: hover3 2.5s ease-in-out forwards infinite;
+        animation-delay: -1.75s;
+        top: 90px;
+        &::before {
+            width: 24px;
+            height: 24px;
+            top: 0px;
+        }
+    }
+    .not-closed {
+        display: inline-block;
+    }
+    .closed {
+        display: none;
+    }
+}
+
+@keyframes hover {
+    0% {
+        transform: translateY(0px);
+        opacity: 0.8;
+    }
+    40% {
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-12px);
+        opacity: 1;
+    }
+    60% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0px);
+        opacity: 0.8;
+    }
+}
+@keyframes hover2 {
+    0% {
+        transform: translateY(0px) rotate(135deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(135deg);
+    }
+    100% {
+        transform: translateY(0px) rotate(135deg);
+    }
+}
+@keyframes hover3 {
+    0% {
+        transform: translateY(0px) rotate(-45deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(-45deg);
+    }
+    100% {
+        transform: translateY(0px) rotate(-45deg);
+    }
+}
+
+.open .explanation {
+    width: 600px;
+    white-space: initial;
+    padding: 0px 40px;
+
+    @media only screen and (max-width: $mobile) {
+        width: 100%;
+        height: min(calc(100vh - 105px), 790px);
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+}
+
+.explanation {
+    background-color: #f5b1b3;
+    width: 0px;
+    height: 100%;
+    transition: width 0.3s ease;
+    display: grid;
+    grid-template-rows: min-content auto min-content min-content 1fr;
+    justify-content: center;
+    white-space: nowrap;
+    padding: 0;
+    gap: 50px;
+    overflow: hidden;
+    text-align: left;
+
+
+    .steps {
+        display: grid;
+        grid-template-columns: 40px 1fr;
+        justify-items: start;
+        align-items: baseline;
+        row-gap: 15px;
+        font-weight: bold;
+    }
+
+    .moving-steps {
+        display: grid;
+        grid-template-columns: min-content 1fr;
+        justify-items: start;
+        align-items: center;
+        align-content: flex-start;
+        gap: 15px;
+        .button {
+            transform: scale(0.8);
+        }
+    }
+
+    .foot {
+        font-size: 1.25rem;
+        text-align: center;
+    }
+
+    a {
+        color: $pink;
+        text-shadow: none;
+    }
+
+    @media only screen and (max-width: $mobile) {
+        width: 100%;
+        height: min(calc(100vh - 105px), 790px);
+        padding: 20px;
+        white-space: initial;
+    }
+}
+
+.light {
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    background-color: red;
+    position: relative;
+
+    &.on {
+        background-color: green;
+    }
+    &#light-3.on {
+        background-color: $orange;
+    }
+}
